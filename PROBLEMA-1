@@ -1,4 +1,4 @@
-%PROBLAMA-1
+#PROBLAMA-1
 n = float(input("Ingrese la cantidad de bitcoins que posee: "))
 
 try:
