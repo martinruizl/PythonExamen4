@@ -1,0 +1,22 @@
+#PROBLEMA-2
+from pyfiglet import Figlet
+import random
+
+figlet = Figlet()
+available_fonts = figlet.getFonts()
+
+font_name = input("Ingrese el nombre de la fuente (deje en blanco para seleccionar aleatoriamente): ")
+
+if not font_name:
+    font_name = random.choice(available_fonts)
+
+if font_name not in available_fonts:
+    print(f"La fuente '{font_name}' no está disponible.")
+    print("Fuentes disponibles:")
+    print(", ".join(available_fonts))
+else:
+    figlet.setFont(font=font_name)
+
+    text_to_print = input("Ingrese el texto a imprimir: ")
+
+    print(figlet.renderText(text_to_print))
