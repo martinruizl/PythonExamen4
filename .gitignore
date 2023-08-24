@@ -1,0 +1,15 @@
+#PROBLEMA -1
+n = float(input("Ingrese la cantidad de bitcoins que posee: "))
+
+try:
+    response = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
+    response.raise_for_status()  # Verificar si hubo algún error en la solicitud
+
+    data = response.json()
+    price = data["bpi"]["USD"]["rate_float"]
+
+    cost = n * price
+
+    print(f"El costo actual de {n:,} Bitcoins es ${cost:,.4f}")
+except requests.RequestException:
+    print("Error al conectar con la API de CoinDesk")
