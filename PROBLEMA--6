@@ -1,0 +1,32 @@
+#PROBLEMA-6
+import sqlite3
+import requests
+from datetime import datetime
+
+response = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
+data = response.json()
+
+usd_price = data["bpi"]["USD"]["rate"]
+gbp_price = data["bpi"]["GBP"]["rate"]
+eur_price = data["bpi"]["EUR"]["rate"]
+
+date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+conn = sqlite3.connect("cryptos.db")
+cursor = conn.cursor()
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS bitcoin
+                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   date_time TEXT,
+                   usd_price REAL,
+                   gbp_price REAL,
+                   eur_price REAL)''')
+
+cursor.execute("INSERT INTO bitcoin (date_time, usd_price, gbp_price, eur_price) VALUES (?, ?, ?, ?)",
+               (date_time, usd_price, gbp_price, eur_price))
+
+conn.commit()
+
+conn.close()
+
+print("Datos de precio de Bitcoin almacenados en la tabla 'bitcoin' de la base de datos 'cryptos'")
